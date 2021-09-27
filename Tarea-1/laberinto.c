@@ -11,14 +11,14 @@ int main(){
 	mkdir("Laberinto", 0777);
 	const char* origen = "Laberinto/";
 	char* num;
-	srand(time(NULL));
+	
 	char buffer0[MAX];
 	char buffer1[MAX];
 	char buffer2[MAX];
 	char frase1[50] = "1, Los hurones del ";
 	char frase2[50] = "2, profesor de sistemas operativos son ";
 	char frase3[50] = "3, tiernos como tu carita bb 7u7";
-	int count=0, y=1;
+	int y=1;
 	for (int i = 1; i < 4; i++)
 	{
 		if (asprintf(&num, "%d", i) == -1){
@@ -45,7 +45,6 @@ int main(){
 				}
 				else{
 					strcat(strcpy(buffer2, buffer1), num);
-					count++;
 
 				}
 				mkdir(buffer2, 0777);			
@@ -55,13 +54,20 @@ int main(){
 		}
 		
 	}
+	srand(time(NULL));
 	char* dir1;
 	char* dir2;
 	char* dir3;
 	for (int i = 0; i < 3; i++){
-		int x1 = rand()%9;
-		int x2 = rand()%9;
-		int x3 = rand()%9;
+		int x1 = rand()%3;
+		x1++;
+		printf("%d\n", x1);
+		int x2 = rand()%3;
+		x2++;
+		printf("%d\n", x2);
+		int x3 = rand()%3;
+		x3++;
+		printf("%d\n", x3);
 		char bufferInput[50] = "Laberinto/";
 		asprintf(&dir1, "%d", x1);
 		asprintf(&dir2, "%d", x2);
