@@ -18,7 +18,7 @@ int main(){
 	char frase1[50] = "1, Los hurones del ";
 	char frase2[50] = "2, profesor de sistemas operativos son ";
 	char frase3[50] = "3, tiernos como tu carita bb 7u7";
-	int i=1, count=0, y =1;
+	int count=0, y=1;
 	for (int i = 1; i < 4; i++)
 	{
 		if (asprintf(&num, "%d", i) == -1){
@@ -29,8 +29,6 @@ int main(){
 		}
 		mkdir(buffer0, 0777);
 		strcat(buffer0, "/");
-		int x = rand()%9;
-		x++;
 		for (int i = 1; i < 4; i++){
 			if (asprintf(&num, "%d", i) == -1){
 			perror("asprintf");
@@ -50,28 +48,39 @@ int main(){
 					count++;
 
 				}
-				mkdir(buffer2, 0777);
-				printf("X = %d COUNT = %d\n", x, count);
-				if(count == x){
-					strcat(buffer2, "/frase.txt");
-					printf("Asignado a %s\n", buffer2);
-					FILE* fp = fopen(buffer2, "w");
-					if (y == 1){
-						fputs(frase1, fp);
-						y++;
-					}else if (y == 2){
-						fputs(frase2, fp);
-						y++;
-					}else if (y == 3){
-						fputs(frase3, fp);
-						y++;
-					}
-					fclose(fp);
-				}
+				mkdir(buffer2, 0777);			
+				
 			}
 
 		}
-		count=0;
+		
+	}
+	char* dir1;
+	char* dir2;
+	char* dir3;
+	for (int i = 0; i < 3; i++){
+		int x1 = rand()%9;
+		int x2 = rand()%9;
+		int x3 = rand()%9;
+		char bufferInput[50] = "Laberinto/";
+		asprintf(&dir1, "%d", x1);
+		asprintf(&dir2, "%d", x2);
+		asprintf(&dir3, "%d", x3);
+		strcat(strcat(strcat(strcat(strcat(bufferInput, dir1), "/"), dir2), "/"), dir3);
+		strcat(bufferInput, "/frase.txt");
+		printf("Asignado a %s\n", bufferInput);
+		FILE* fp = fopen(bufferInput, "w");
+		if (y == 1){
+			fputs(frase1, fp);
+			y++;
+		}else if (y == 2){
+			fputs(frase2, fp);
+			y++;
+		}else if (y == 3){
+			fputs(frase3, fp);
+			y++;
+		}
+		fclose(fp);
 	}
 	free(num);
 	return 0;
