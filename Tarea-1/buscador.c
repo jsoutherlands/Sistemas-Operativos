@@ -7,7 +7,7 @@ int main(){
 	char * i1;
 	char* i2;
 	char * i3;
-	char frase1[50], frase2[50], frase3[50], fraseAux[50];
+	char frase1[50], frase2[50], frase3[50], numerito[1], inutil[3], fraseFinal[75], auxiliar[25];
 	int  i =1, j=1, k=1;
 	for (int m = 1; m < 4; m++)
 	{	
@@ -25,16 +25,33 @@ int main(){
 				strcat(bufferStart,"/frase.txt");
 				printf("%s\n",bufferStart);
 
-				if (archivo = fopen("frase.txt", "r"))
+				if (archivo = fopen(bufferStart, "r"))
 				{
-					fscanf(archivo, "%s", fraseAux);
-					printf("Frase aux %s\n",fraseAux);
-					printf("Frase aux[0]%d\n",fraseAux[0] );
-					//if (fraseAux[0] == "1")
-					//{
-					//	printf("Funciona\n");
-					//}
+					fscanf(archivo, "%c", numerito);
+					
+					fscanf(archivo, "%s", inutil);
+					
+					while(!feof(archivo)){
+						fscanf(archivo, "%s", auxiliar);
+						strcat(fraseFinal, auxiliar);
+						strcat(fraseFinal, " ");
+
+					}
+					printf("aqui %s\n", numerito);
+					if (strcmp(numerito,"1,")==0)
+					{
+						strcpy(frase1, fraseFinal);
+						printf("Hola\n");
+					}else if (strcmp(numerito,"2,")==0)
+					{
+						strcpy(frase2, fraseFinal);
+					}else if (strcmp(numerito,"3,")==0)
+					{
+						strcpy(frase3, fraseFinal);
+					}
+					printf("%s\n", fraseFinal);
 					fclose(archivo);
+					strcpy(fraseFinal, "");
 				}
 				strcpy(bufferStart,"Laberinto/");
 			}	
@@ -42,5 +59,9 @@ int main(){
 		}
 	
 	}
+	printf("%s\n", frase1);
+	strcat(strcat(strcat(fraseFinal, frase1), frase2), frase3);
+	printf("%s\n", fraseFinal);
+	free (archivo);
 	return 0;
 }
