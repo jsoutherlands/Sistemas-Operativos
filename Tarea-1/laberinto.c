@@ -60,13 +60,10 @@ int main(){
 	for (int i = 0; i < 3; i++){
 		int x1 = rand()%3;
 		x1++;
-		printf("%d\n", x1);
 		int x2 = rand()%3;
 		x2++;
-		printf("%d\n", x2);
 		int x3 = rand()%3;
 		x3++;
-		printf("%d\n", x3);
 		char bufferInput[50] = "Laberinto/";
 		asprintf(&dir1, "%d", x1);
 		asprintf(&dir2, "%d", x2);
@@ -88,6 +85,10 @@ int main(){
 		fclose(fp);
 	}
 	free(num);
+	free(dir1);
+	free(dir2);
+	free(dir3);
+	free((char*)origen);
 	return 0;
 }
 
