@@ -1,22 +1,21 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE 1
+#endif
 #include <stdio.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#ifndef MAX
-#define MAX 100
-#endif
 
 int main(){
 	mkdir("Laberinto", 0777);
 	const char* origen = "Laberinto/";
 	char* num;
-	
-	char buffer0[MAX];
-	char buffer1[MAX];
-	char buffer2[MAX];
-	char frase1[50] = "1, Los hurones del ";
-	char frase2[50] = "2, profesor de sistemas operativos son ";
+	char buffer0[100];
+	char buffer1[100];
+	char buffer2[100];
+	char frase1[50] = "1, Los hurones del";
+	char frase2[50] = "2, profesor de sistemas operativos son";
 	char frase3[50] = "3, tiernos como tu carita bb 7u7";
 	int y=1;
 	for (int i = 1; i < 4; i++)
