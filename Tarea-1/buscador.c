@@ -63,6 +63,5 @@ int main(){
 	printf("%s\n", frase1);
 	strcat(strcat(strcat(fraseFinal, frase1), frase2), frase3);
 	printf("%s\n", fraseFinal);
-	free (archivo);
 	return 0;
 }
