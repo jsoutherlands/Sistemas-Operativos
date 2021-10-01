@@ -1,5 +1,5 @@
-#ifndef _GNU_SOURCE	//se utiliza para el asprintf
-#define _GNU_SOURCE 1 	//se utiliza para el asprintf
+#ifndef _GNU_SOURCE	
+#define _GNU_SOURCE 1 	//Se utiliza para el asprintf.
 #endif
 #include <stdio.h>
 #include <stdlib.h>
