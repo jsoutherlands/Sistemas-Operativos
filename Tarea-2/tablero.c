@@ -76,15 +76,18 @@ int getJugador(Tablero* tablero, int jugador){
 			return i;
 		}
 	}
+	return 0;
 }
 
-void avanzar(Tablero* tablero, int dado, int jugador){
+void moveToPos(Tablero* tablero, int dado, int jugador){
 	int posicion = getJugador(tablero, jugador);
 	int nuevaposicion = posicion + dado;
 	if (nuevaposicion >= 27){
 		nuevaposicion = nuevaposicion-27;
+		tablero->dinero[jugador] += 100;
 	}
 	tablero->casillas[posicion].jugadores[jugador] = 0;
 	tablero->casillas[nuevaposicion].jugadores[jugador] = 1;
 };
+
 
