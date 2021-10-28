@@ -1,13 +1,13 @@
-make: tablero.o tarea2.o
-	gcc -Wall -g -o tarea2 tarea2.o tablero.o -lm -lrt
+make: tablero.o monopoly.o
+	gcc -Wall -g -o monopoly monopoly.o tablero.o -lm -lrt
 
 run:
-	./tarea2
+	./monopoly
 
 tablero.o: tablero.c
 	gcc -c -Wall tablero.c
 
-tarea2.o: tarea2.c
-	gcc -c -Wall tarea2.c
+monopoly.o: monopoly.c
+	gcc -c -Wall monopoly.c
 clean:
-	rm -f tarea2 *.o
+	rm -f monopoly *.o
