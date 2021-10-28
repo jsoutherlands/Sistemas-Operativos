@@ -16,6 +16,5 @@ typedef struct tablero{
 Tablero *crearTablero();
 int getJugador(Tablero* tablero, int jugador);
 void moveToPos(Tablero* tablero, int dado, int jugador);
-char datoChar(Tablero* tablero, int posicion);
 
 #endif
