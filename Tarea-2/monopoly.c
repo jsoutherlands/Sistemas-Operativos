@@ -5,12 +5,26 @@
 #include <sys/stat.h>
 #include <sys/fcntl.h>
 #include "tablero.h"
-#include <sys/wait.h>
+#include <sys/types.h>
+#include <signal.h>
 #include <time.h>
 #include <string.h>
-#include <math.h>
 
 #define NAME_SHMEM "/tablero1"
+
+/****************************************************
+* 
+* int dado
+* 
+*****************************************************
+* 
+* Return: numero
+* 
+*****************************************************
+* 
+* Descripción: Escoge un número al azar entre 1 y 6.
+* 
+****************************************************/
 
 int dado(){
 	int numero;
@@ -20,7 +34,7 @@ int dado(){
 }
 
 int main(int argc, char const *argv[]){
-	int fd, pid, user = 0, dato, rondas = 1;
+	int fd, pid, user = 0, rondas = 1;
 	int posicion0, posicion1, posicion2;
 	int turnos[3];
 	int turnoJail0 = 0;
@@ -30,9 +44,6 @@ int main(int argc, char const *argv[]){
 	tablero = crearTablero();
 	fd = shm_open(NAME_SHMEM, O_RDWR, sizeof(*tablero));
 	tablero = mmap(0, sizeof(*tablero), PROT_WRITE, MAP_SHARED, fd, 0);
-	
-	//printf("%d\n", getJugador(tablero, 0));
-
 	int pipe01[2], pipe10[2], pipe02[2], pipe20[2], pipe03[2], pipe30[2];
 	pipe(pipe01);
 	pipe(pipe02);
@@ -46,12 +57,15 @@ int main(int argc, char const *argv[]){
 	turnos[1] = 0;
 	turnos[2] = 0;
 
-	printf("Bienvenidas y bienvenidos al mejor juego del mundo: Monopoly SO\n\n");
+	printf("\n\nBienvenidas y bienvenidos al mejor juego del mundo: Monopoly SO\n\n");
+
+	mostrarTablero(tablero);
 
 	for(int i=0;i<3;i++){
 		pid=fork();
 		user=i;
 		if(pid==0){ //proceso hijo!
+			tablero->pids[i] = getpid();
 			break;
 		}
 	}
@@ -83,32 +97,32 @@ int main(int argc, char const *argv[]){
 				int dadito0 = dado();
 				printf("Dado = %d\n", dadito0);
 				moveToPos(tablero, dadito0, 0);
-				int dato = tablero->casillas[getJugador(tablero, 0)].dato;
-				if(dato == -2){
+				int dato0 = tablero->casillas[getJugador(tablero, 0)].dato;
+				if(dato0 == -2){
 					write(pipe10[1], "a", 1);
-				}else if(dato == -5){
+				}else if(dato0 == -5){
 					write(pipe10[1], "b", 1);
-				}else if(dato == -3){
+				}else if(dato0 == -3){
 					write(pipe10[1], "c", 1);
-				}else if(dato == 0){
+				}else if(dato0 == 0){
 					write(pipe10[1], "#", 1);
-				}else if(dato == 5){
+				}else if(dato0 == 5){
 					write(pipe10[1], "d", 1);
-				}else if(dato == -4){
+				}else if(dato0 == -4){
 					write(pipe10[1], "e", 1);
-				}else if(dato == 3){
+				}else if(dato0 == 3){
 					write(pipe10[1], "f", 1);
-				}else if(dato == 50){
+				}else if(dato0 == 50){
 					write(pipe10[1], "g", 1);
-				}else if(dato == 75){
+				}else if(dato0 == 75){
 					write(pipe10[1], "h", 1);
-				}else if(dato == -25){
+				}else if(dato0 == -25){
 					write(pipe10[1], "i", 1);
-				}else if(dato == -50){
+				}else if(dato0 == -50){
 					write(pipe10[1], "j", 1);
-				}else if(dato == -75){
+				}else if(dato0 == -75){
 					write(pipe10[1], "k", 1);
-				}else if(dato == 100){
+				}else if(dato0 == 100){
 					write(pipe10[1], "l", 1);
 				}
 			}else if (user == 1){
@@ -118,32 +132,32 @@ int main(int argc, char const *argv[]){
 				int dadito1 = dado();
 				printf("Dado = %d\n", dadito1);
 				moveToPos(tablero, dadito1, 1);
-				int dato = tablero->casillas[getJugador(tablero, 1)].dato;
-				if(dato == -2){
+				int dato1 = tablero->casillas[getJugador(tablero, 1)].dato;
+				if(dato1 == -2){
 					write(pipe20[1], "a", 1);
-				}else if(dato == -5){
+				}else if(dato1 == -5){
 					write(pipe20[1], "b", 1);
-				}else if(dato == -3){
+				}else if(dato1 == -3){
 					write(pipe20[1], "c", 1);
-				}else if(dato == 0){
+				}else if(dato1 == 0){
 					write(pipe20[1], "#", 1);
-				}else if(dato == 5){
+				}else if(dato1 == 5){
 					write(pipe20[1], "d", 1);
-				}else if(dato == -4){
+				}else if(dato1 == -4){
 					write(pipe20[1], "e", 1);
-				}else if(dato == 3){
+				}else if(dato1 == 3){
 					write(pipe20[1], "f", 1);
-				}else if(dato == 50){
+				}else if(dato1 == 50){
 					write(pipe20[1], "g", 1);
-				}else if(dato == 75){
+				}else if(dato1 == 75){
 					write(pipe20[1], "h", 1);
-				}else if(dato == -25){
+				}else if(dato1 == -25){
 					write(pipe20[1], "i", 1);
-				}else if(dato == -50){
+				}else if(dato1 == -50){
 					write(pipe20[1], "j", 1);
-				}else if(dato == -75){
+				}else if(dato1 == -75){
 					write(pipe20[1], "k", 1);
-				}else if(dato == 100){
+				}else if(dato1 == 100){
 					write(pipe20[1], "l", 1);
 				}
 			}else if (user == 2){
@@ -153,32 +167,32 @@ int main(int argc, char const *argv[]){
 				int dadito2 = dado();
 				printf("Dado = %d\n", dadito2);
 				moveToPos(tablero, dadito2, 2);
-				int dato = tablero->casillas[getJugador(tablero, 2)].dato;
-				if(dato == -2){
+				int dato2 = tablero->casillas[getJugador(tablero, 2)].dato;
+				if(dato2 == -2){
 					write(pipe30[1], "a", 1);
-				}else if(dato == -5){
+				}else if(dato2 == -5){
 					write(pipe30[1], "b", 1);
-				}else if(dato == -3){
+				}else if(dato2 == -3){
 					write(pipe30[1], "c", 1);
-				}else if(dato == 0){
+				}else if(dato2 == 0){
 					write(pipe30[1], "#", 1);
-				}else if(dato == 5){
+				}else if(dato2 == 5){
 					write(pipe30[1], "d", 1);
-				}else if(dato == -4){
+				}else if(dato2 == -4){
 					write(pipe30[1], "e", 1);
-				}else if(dato == 3){
+				}else if(dato2 == 3){
 					write(pipe30[1], "f", 1);
-				}else if(dato == 50){
+				}else if(dato2 == 50){
 					write(pipe30[1], "g", 1);
-				}else if(dato == 75){
+				}else if(dato2 == 75){
 					write(pipe30[1], "h", 1);
-				}else if(dato == -25){
+				}else if(dato2 == -25){
 					write(pipe30[1], "i", 1);
-				}else if(dato == -50){
+				}else if(dato2 == -50){
 					write(pipe30[1], "j", 1);
-				}else if(dato == -75){
+				}else if(dato2 == -75){
 					write(pipe30[1], "k", 1);
-				}else if(dato == 100){
+				}else if(dato2 == 100){
 					write(pipe30[1], "l", 1);
 				}
 			}
@@ -191,7 +205,6 @@ int main(int argc, char const *argv[]){
 				write(pipe01[1], "0", 1);
 				while(read(pipe10[0], buff, sizeof(buff)) < 0){};
 				posicion0 = getJugador(tablero, 0);
-				dato = tablero->casillas[posicion0].dato;
 				if (strcmp(buff, "a") == 0){//-2 back 2
 					moveToPos(tablero, -2, 0);
 					tablero->dinero[0] += 50;
@@ -225,7 +238,7 @@ int main(int argc, char const *argv[]){
 					moveToPos(tablero, -4, 0);
 					printf("Has caído en la casilla BACK 4...\n");
 					printf("Retrocedes 3 espacios...\n");
-					if(tablero->casillas[getJugador(tablero, 0)].dato == -5){
+					if(tablero->casillas[posicion0].dato == -5){
 						printf("Has caído en JAIL, pierdes un turno *guiño guiño*\n"); // JAIL
 						turnoJail0 = rondas;
 						turnos[0] = 1;
@@ -288,6 +301,9 @@ int main(int argc, char const *argv[]){
 				}
 				printf("Tu nuevo saldo es $%d\n\n\n", tablero->dinero[0]);
 				turnos[0] = 1;
+				if(tablero->dinero[0] >=500){
+					break;
+				}
 			}
 			if (turnos[1] == 0){
 				printf("¡Es el turno del Jugador 2!\n");
@@ -297,7 +313,6 @@ int main(int argc, char const *argv[]){
 				write(pipe02[1], "0", 1);
 				while(read(pipe20[0], buff, sizeof(buff)) < 0){};
 				posicion1 = getJugador(tablero, 1);
-				dato = tablero->casillas[posicion1].dato;
 				if (strcmp(buff, "a") == 0){//-2 back 2
 					moveToPos(tablero, -2, 1);
 					tablero->dinero[1] += 50;
@@ -331,7 +346,7 @@ int main(int argc, char const *argv[]){
 					moveToPos(tablero, -4, 1);
 					printf("El jugador 2 ha caído en la casilla BACK 4...\n");
 					printf("El jugador 2 retrocede 3 espacios...\n");
-					if(tablero->casillas[getJugador(tablero, 1)].dato == -5){
+					if(tablero->casillas[posicion1].dato == -5){
 						printf("El jugador 2 ha caído en JAIL, pierde un turno *guiño guiño*\n"); // JAIL
 						turnoJail1 = rondas;
 						turnos[1] = 1;
@@ -394,6 +409,9 @@ int main(int argc, char const *argv[]){
 				}
 				printf("El nuevo saldo del Jugador 2 es $%d\n\n\n", tablero->dinero[1]);
 				turnos[1] = 1;
+				if(tablero->dinero[1] >=500){
+					break;
+				}
 			}
 			if (turnos[2] == 0){
 				printf("¡Es el turno del Jugador 3!\n");
@@ -403,7 +421,6 @@ int main(int argc, char const *argv[]){
 				write(pipe03[1], "0", 1);
 				while(read(pipe30[0], buff, sizeof(buff)) < 0){};
 				posicion2 = getJugador(tablero, 2);
-				dato = tablero->casillas[posicion2].dato;
 				if (strcmp(buff, "a") == 0){//-2 back 2
 					moveToPos(tablero, -2, 2);
 					tablero->dinero[2] += 50;
@@ -437,7 +454,7 @@ int main(int argc, char const *argv[]){
 					moveToPos(tablero, -4, 2);
 					printf("El jugador 3 ha caído en la casilla BACK 4...\n");
 					printf("El jugador 3 retrocede 3 espacios...\n");
-					if(tablero->casillas[getJugador(tablero, 2)].dato == -5){
+					if(tablero->casillas[posicion2].dato == -5){
 						printf("El jugador 3 ha caído en JAIL, pierde un turno *guiño guiño*\n"); // JAIL
 						turnoJail2 = rondas;
 						turnos[2] = 1;
@@ -500,6 +517,9 @@ int main(int argc, char const *argv[]){
 				}
 				printf("El nuevo saldo del Jugador 3 es $%d\n\n\n", tablero->dinero[2]);
 				turnos[2] = 1;
+				if(tablero->dinero[2] >=500){
+					break;
+				}
 			}
 			
 			// Estos if se utilizan para identificar
@@ -524,12 +544,9 @@ int main(int argc, char const *argv[]){
 				turnos[2] = 0;
 			}
 
-			
-			printf("Jail 1 = %d | Jail 2 = %d | Jail 3 = %d\n", turnoJail0, turnoJail1, turnoJail2);
-			printf("Ronda = %d\n", rondas);
 			rondas+=1;
 
-			printf("\nPosiciones: J1 = %d | J2 = %d | J3 = %d\n", getJugador(tablero, 0), getJugador(tablero, 1), getJugador(tablero,2));
+			mostrarTablero(tablero);
 
 			printf("----------------------\n");
 			printf("RESULTADOS DE LA RONDA\n");
@@ -537,9 +554,8 @@ int main(int argc, char const *argv[]){
 			printf("Jugador 2: %d\n", tablero->dinero[1]);
 			printf("Jugador 3: %d\n", tablero->dinero[2]);
 			printf("----------------------\n");
-			sleep(3);
-			printf("\n\n¡¡¡¡¡¡NUEVA RONDA!!!!!!\n\n");
-			printf("Ronda = %d\n", rondas);
+			sleep(1);
+			printf("\n¡¡¡¡¡¡NUEVA RONDA!!!!!!\n");
 			sleep(1);
 		}
 	}
@@ -556,10 +572,14 @@ int main(int argc, char const *argv[]){
 
 	//If final, que indica el ganador del juego. Solo puede ingresar el padre.
 	if(pid > 0){
+		mostrarTablero(tablero);
 		printf("\n¡El juego ha terminado!\n");
 		printf("El ganador es... *redoble de tambores*\n");
 		sleep(1);
 		printf("\n¡¡ JUGADOR %d !!\n", ganador);
+		for(int c = 0; c < 3; c++){
+			kill(tablero->pids[c], SIGINT);
+		}
 	}
 	return 0;
 }
