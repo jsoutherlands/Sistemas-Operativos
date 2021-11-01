@@ -580,6 +580,7 @@ int main(int argc, char const *argv[]){
 		for(int c = 0; c < 3; c++){
 			kill(tablero->pids[c], SIGINT);
 		}
+		kill(getppid(), SIGINT);
 	}
 	return 0;
 }
