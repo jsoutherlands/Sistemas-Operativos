@@ -37,14 +37,20 @@ public class Busqueda extends Thread{
 
 			
 			String linea;
+			int flag = 0;
 			while((linea=br.readLine())!=null){
 				String[] parts = linea.split("\\ ");
 				
 				for(int i = 0; i < parts.length; i++){
 					if (parts[i].equals("eiffel")){
 						System.out.println("eiffel");
+						flag = 1;
 						break;
 					}
+				}
+
+				if(flag == 1){
+					break;
 				}
 			   
 			}

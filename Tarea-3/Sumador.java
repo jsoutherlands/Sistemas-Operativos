@@ -55,17 +55,18 @@ public class Sumador extends Thread{
 			   
 			   partsInt.add(Integer.parseInt(testList.get(k)));
 			}
-			
+			int flag = 0;
 			for(int i = 0; i < partsInt.size(); i++){
-			   
 				for (int j = 0; j < partsInt.size(); j++){
-					
 					if(i < j){
 						if(partsInt.get(i)+partsInt.get(j) == 65){
 							System.out.println(partsInt.get(i) + " " +  partsInt.get(j));
-							
+							flag = 1;
 						}
 					}
+				}
+				if(flag == 1){
+					break;
 				}
 			}
 			long endTime2 = System.nanoTime();
